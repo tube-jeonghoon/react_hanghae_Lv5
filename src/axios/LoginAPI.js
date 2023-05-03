@@ -10,6 +10,10 @@ const instance = axios.create({
 const handleSignUp = async (props) => {
   try {
     const response = await instance.post(`/register`, {
+      headers: {
+        "Content-Type": "application/json",
+        'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
+      },
       id: props.id,
       password: props.password
     })
@@ -27,6 +31,10 @@ const handleSignUp = async (props) => {
 const handleLogin = async (props) => {
   try {
     const response = await instance.post(`/login`, {
+      headers: {
+        "Content-Type": "application/json",
+        'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
+      },
       id: props.id,
       password: props.password
     })
@@ -36,9 +44,8 @@ const handleLogin = async (props) => {
     if (error.response.status !== 201) {
       return error.response.data
     }
-
-    throw new Error(error.message)
   }
+  throw new Error(error.message)
 }
 
 //인가 API
@@ -47,7 +54,8 @@ const getLoginData = async () => {
   const response = await instance.get(`/user`, {
     headers: {
       "Content-Type": "application/json",
-      authorization: `Bearer ${accessToken}`
+      authorization: `Bearer ${accessToken}`,
+      'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
     }
   })
 
