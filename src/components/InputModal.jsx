@@ -1,9 +1,9 @@
+import { useMutation, useQueryClient } from 'react-query';
+import { addBoards } from '../axios/apiConfig';
 import useInput from '../hooks/useInput';
 import Button from './componet/Button';
-import * as CSS from './style'
-import { addBoards } from '../axios/apiConfig';
-import { useMutation, useQueryClient } from 'react-query';
 import getCurrentDateTime from './componet/getCurrentDateTime';
+import * as CSS from './style';
 
 const InputModal = (props) => {
   const [title, onChangTitleHandler] = useInput();
@@ -19,12 +19,12 @@ const InputModal = (props) => {
   })
   //db에 저장할 데이터
   const currentDate = getCurrentDateTime()
-    const newPost = {
-      title,
-      content,
-      password,
-      currentDate,
-    }
+  const newPost = {
+    title,
+    content,
+    password,
+    currentDate,
+  }
   //등록하기 버튼 함수
   const onClickSaveToggleButton = (toggleModal)=>{
     if(title.length<1){

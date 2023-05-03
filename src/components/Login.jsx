@@ -1,5 +1,8 @@
+import Cookies from 'js-cookie'
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useMutation } from 'react-query'
+import { Link, useNavigate } from 'react-router-dom'
+import { handleLogin } from '../axios/LoginAPI'
 import useInput from '../hooks/useInput'
 import Header from './Header'
 import * as CSS from './style'
@@ -7,17 +10,34 @@ import * as CSS from './style'
 
 const Login = () => {
 
-  const [email,onChangeEmailHandler] = useInput('');
+  const [id,onChangeIdHandler] = useInput('');
   const [password,onChangePasswordHandler] = useInput('');
-
   const [warningMessage,setWarningMessage] =useState('')
 
-  const emailRef = useRef();
+  const idRef = useRef();
   const passwordRef = useRef();
+  const navigate = useNavigate();
+  //회원가입 API
+  const expiresInSeconds = new Date(new Date().getTime()+ 10*60*1000)
+  const mutation = useMutation(handleLogin,{
+    onSuccess: (data) =>{
+      if(data.token){
+        Cookies.set('token',data.token,{ expires: expiresInSeconds })
+        navigate('/')
+      }else{
+        setWarningMessage(data.message)
+      }
+    }
+})
+
+  const newLoginPost = {
+    id,
+    password,
+  }
 
   const onClickLoginHandler = (e) =>{
-    if(email.length<1){
-      emailRef.current.focus();
+    if(id.length<1){
+      idRef.current.focus();
       setWarningMessage('이메일을 입력해주세요.')
       return;
     }
@@ -26,23 +46,26 @@ const Login = () => {
       setWarningMessage('비밀번호를 입력해주세요.')
       return;
     }
+
+    mutation.mutate(newLoginPost)
   }
+
   return (
     <>
-      <Header page={-1} LoginVisible={true}/>
+      <Header page={-1} LoginVisible={true} />
       <CSS.Main>
       <CSS.Login>Login</CSS.Login>
       <CSS.Content>
       이메일
       <CSS.InputTitle 
-      name='email'
-      ref={emailRef}
+      name='id'
+      ref={idRef}
       size='15px' 
       type='login' 
       width='300px' 
-      placeholder='USER EMAIL'
-      value={email}
-      onChange={onChangeEmailHandler}
+      placeholder='USER ID'
+      value={id}
+      onChange={onChangeIdHandler}
       />
       비밀번호    
       <CSS.InputTitle 
@@ -56,7 +79,7 @@ const Login = () => {
       />
       <CSS.WarningMessage>{warningMessage}</CSS.WarningMessage>
       </CSS.Content>
-      <CSS.Button size='M' type='blue' onClick={onClickLoginHandler}>Login</CSS.Button>
+      <CSS.Button size='M' type='blue' onClick={onClickLoginHandler}>login</CSS.Button>
       <Link to='/signUp'>
       <CSS.Button size='M' type='red'>SignUp</CSS.Button>
       </Link>

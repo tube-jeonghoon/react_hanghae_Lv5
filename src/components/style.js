@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import backgroundImage from './image/bamboo.png';
+import pandaImage from './image/panda.png';
 
 export const Button = styled.button`
 background-color:${(props) => {
@@ -142,7 +144,7 @@ padding:8px;
 text-align:center;
 `
 //Thread
-export const ListBox = styled.table`
+export const ListBox = styled.div`
 padding:5px;
 display:flex;
 flex-direction:row;
@@ -157,7 +159,7 @@ export const DetailLink = styled(Link)`
   padding:8px;
   text-align:center;
 `
-export const buttonHandler = styled.div`
+export const ButtonHandler = styled.div`
 margin-top:20px;
 `
 export const ThreadContainer = styled.section`
@@ -227,6 +229,7 @@ font-size:13px;
 
 //Home
 export const HomeContainer = styled.section`
+position:relative;
 display:flex;
 justify-content:center;
 margin-top:300px;
@@ -240,6 +243,27 @@ export const HomeTextLink = styled(Link)`
 export const HomeMain = styled.main`
 background-color: #F7F5EB;
 height:100vh;
+`
+export const Bamboo = styled.div`
+background-image:url(${backgroundImage});
+position:absolute;
+top:20;
+background-size:cover;
+/* background-position:center; */
+width:800px;
+height:700px;
+z-index:1;
+`
+export const panda = styled.div`
+background-image:url(${pandaImage});
+/* background-color:red; */
+background-size:cover;
+width:600px;
+height:550px;
+position: absolute;
+top: 0;
+left: 50%;
+transform: translate(-50%, -50%);
 `
 //Login
 export const Login = styled.h1`

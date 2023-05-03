@@ -1,23 +1,44 @@
-import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { useMutation } from 'react-query';
+import { useNavigate } from 'react-router-dom';
+import { handleSignUp } from '../axios/LoginAPI';
 import useInput from '../hooks/useInput';
-import Header from './Header'
-import * as CSS from './style'
+import Header from './Header';
+import * as CSS from './style';
 
 const SignUp = () => {
-  const [email,onChangeEmailHandler] = useInput('');
+  const [id,onChangeIdHandler] = useInput('');
   const [password,onChangePasswordHandler] = useInput('');
   const [checkPassword,onChangeCheckPasswordHandler] = useInput('');
 
   const [warningMessage,setWarningMessage] =useState('')
 
-  const emailRef = useRef();
+  const idRef = useRef();
   const passwordRef = useRef();
   const checkPasswordRef = useRef();
 
+  const navigate = useNavigate();
+  //회원가입 API
+  const mutation = useMutation(handleSignUp,{
+    onSuccess: (error) =>{
+      if(error){
+        setWarningMessage(error.message)
+      } else {
+      alert('성공')
+      navigate('/login')
+      }
+    }
+})
+
+
+  const newSignUpPost = {
+    id,
+    password,
+  }
+
   const onClickSignUpHandler = (e) =>{
-    if(email.length<1){
-      emailRef.current.focus();
+    if(id.length<1){
+      idRef.current.focus();
       setWarningMessage('이메일을 입력해주세요.')
       return;
     }
@@ -31,6 +52,11 @@ const SignUp = () => {
       setWarningMessage('비밀번호 확인해주세요.')
       return;
     }
+    if(password !== checkPassword){
+      setWarningMessage('비밀번호가 일치하지 않습니다.')
+      return;
+    }
+    mutation.mutate(newSignUpPost)
   }
 
   return (
@@ -39,16 +65,16 @@ const SignUp = () => {
       <CSS.Main>
       <CSS.Login>SignUp</CSS.Login>
       <CSS.Content>
-      이메일
+      아이디
       <CSS.InputTitle 
-      name='email'
-      ref={emailRef}
+      name='id'
+      ref={idRef}
       size='15px' 
       type='login' 
       width='300px' 
-      placeholder='USER EMAIL'
-      value={email}
-      onChange={onChangeEmailHandler}
+      placeholder='USER ID'
+      value={id}
+      onChange={onChangeIdHandler}
       />
       비밀번호    
       <CSS.InputTitle 

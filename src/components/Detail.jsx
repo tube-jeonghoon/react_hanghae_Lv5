@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { QueryClient, useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { editBoards, getBoard, getBoards, removeBoards } from '../axios/apiConfig'
 import Button from './componet/Button'
 import getCurrentDateTime from './componet/getCurrentDateTime'
 import Header from './Header'
 import * as CSS from './style'
+import UnLogin from './UnLogin'
 
 const Detail = () => {
   const queryClient = useQueryClient();
@@ -78,9 +79,9 @@ const Detail = () => {
     
   }
   
-  const currentDate = getCurrentDateTime()
   //수정완료 함수
   const onClickEditCompleteButtonHandler = () =>{
+  const currentDate = getCurrentDateTime()
     
     editMutation.mutate({id:data.id,title:state.title,content:state.content,currentDate})
     setEditing(!editing)
@@ -92,17 +93,19 @@ const Detail = () => {
     
   return (
     // 상세페이지 폼
-    <CSS.DetailEntire>
+    <>
+    {data &&<CSS.DetailEntire>
       <Header page={-1}/>
+
       {editing &&
       <CSS.DetailMain>
-        <CSS.Date>수정일 {data.currentDate}</CSS.Date>
+        {/* <CSS.Date>수정일 {data.currentDate}</CSS.Date> */}
         <CSS.DetailH1>{data.title}</CSS.DetailH1>
         <CSS.DetailContent>{data.content}</CSS.DetailContent>
     
         <CSS.ButtonContainer>
           <Button type="blue" onClick={onClickEditButtonHandler}>수정하기</Button>
-          <Button type="red" onClick={()=>onClickRemoveButtonHandler()}>삭제하기</Button>
+          <Button type="red" onClick={onClickRemoveButtonHandler}>삭제하기</Button>
         </CSS.ButtonContainer>
       </CSS.DetailMain>}
 
@@ -132,7 +135,9 @@ const Detail = () => {
           <Button type="red" onClick={onClickEditCancelButtonHandler}>취소하기</Button>
         </CSS.ButtonContainer>
       </CSS.DetailEditMain>}
-    </CSS.DetailEntire>
+    </CSS.DetailEntire>}
+      {(data=== undefined) && <UnLogin/>}
+</>
   )
 }
 
