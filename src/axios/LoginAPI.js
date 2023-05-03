@@ -11,8 +11,7 @@ const handleSignUp = async (props) => {
   try {
     const response = await instance.post(`/register`, {
       headers: {
-        "Content-Type": "application/json",
-        'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
+        'x-requested-with': 'your-app-name'
       },
       id: props.id,
       password: props.password
@@ -32,8 +31,7 @@ const handleLogin = async (props) => {
   try {
     const response = await instance.post(`/login`, {
       headers: {
-        "Content-Type": "application/json",
-        'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
+        'x-requested-with': 'your-app-name'
       },
       id: props.id,
       password: props.password
@@ -55,7 +53,7 @@ const getLoginData = async () => {
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${accessToken}`,
-      'x-requested-with': 'https://lv5-bulletin-board.herokuapp.com/login'
+      'x-requested-with': 'your-app-name'
     }
   })
 
