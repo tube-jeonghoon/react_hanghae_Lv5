@@ -239,6 +239,7 @@ font-size:30px;
 export const HomeTextLink = styled(Link)`
   text-decoration:none;
   color:black;
+  z-index:10;
 `
 export const HomeMain = styled.main`
 background-color: #F7F5EB;

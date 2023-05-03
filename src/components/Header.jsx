@@ -22,7 +22,6 @@ const Header = ({Visible,page,LoginVisible}) => {
     <CSS.Header>
       <Link to={page}>
       {!Visible && <Button>이전으로</Button>}
-      {!Visible && <Button></Button>}
       </Link>
       <CSS.Title>항해99 대나무 숲</CSS.Title>
         <Link to='/login'>
