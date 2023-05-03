@@ -74,7 +74,7 @@ const Detail = () => {
     })
     setEditing(!editing)
     }else {
-      alert('비밀번호가 틀렸습니다. 다시 입력해주세요.')
+      alert('비밀번호가 틀렸습니다 다시 입력해주세요.')
     }
     
   }
